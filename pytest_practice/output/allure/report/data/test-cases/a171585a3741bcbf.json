@@ -1,0 +1,132 @@
+{
+  "uid" : "a171585a3741bcbf",
+  "name" : "教师机登录_正常",
+  "fullName" : "testcases.test_testcases.TestCase#test_all",
+  "historyId" : "d10e1929e86ca84b36d42f2f8ef9e1c4",
+  "time" : {
+    "start" : 1646794364718,
+    "stop" : 1646794368040,
+    "duration" : 3322
+  },
+  "description" : "登录-获取token",
+  "descriptionHtml" : "<p>登录-获取token</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "setup_teardown",
+    "time" : {
+      "start" : 1646794364708,
+      "stop" : 1646794364718,
+      "duration" : 10
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "env",
+    "time" : {
+      "start" : 1646794364718,
+      "stop" : 1646794364718,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "登录-获取token",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "f1d70f9550663583",
+      "name" : "stdout",
+      "source" : "f1d70f9550663583.txt",
+      "type" : "text/plain",
+      "size" : 1025
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "setup_teardown::0",
+    "time" : {
+      "start" : 1646794372286,
+      "stop" : 1646794372286,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "feature",
+    "value" : "xxx项目"
+  }, {
+    "name" : "story",
+    "value" : "功能名称"
+  }, {
+    "name" : "severity",
+    "value" : "blocker"
+  }, {
+    "name" : "tag",
+    "value" : "1426"
+  }, {
+    "name" : "parentSuite",
+    "value" : "testcases"
+  }, {
+    "name" : "suite",
+    "value" : "test_testcases"
+  }, {
+    "name" : "subSuite",
+    "value" : "TestCase"
+  }, {
+    "name" : "host",
+    "value" : "dongshuaideMacBook-Air.local"
+  }, {
+    "name" : "thread",
+    "value" : "16640-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "testcases.test_testcases"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "blocker",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "1426" ]
+  },
+  "source" : "a171585a3741bcbf.json",
+  "parameterValues" : [ ]
+}

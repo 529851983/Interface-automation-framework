@@ -1,0 +1,160 @@
+{
+  "uid" : "98d3104e051c652961429bf95fa0b5d6",
+  "children" : [ {
+    "name" : "testcases",
+    "children" : [ {
+      "name" : "test_testcases",
+      "children" : [ {
+        "name" : "TestCase",
+        "children" : [ {
+          "name" : "教师机登录_正常",
+          "uid" : "a171585a3741bcbf",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794364718,
+            "stop" : 1646794368040,
+            "duration" : 3322
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "OK家长调用-分类列表_冒烟",
+          "uid" : "d0821d3b780a344",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794368044,
+            "stop" : 1646794370166,
+            "duration" : 2122
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块2OK家长调用-分类列表_冒烟",
+          "uid" : "d0d39d5897f1cec6",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794370171,
+            "stop" : 1646794370279,
+            "duration" : 108
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块3OK家长调用-分类列表_冒烟",
+          "uid" : "ce4528eaefdbc8ab",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794370283,
+            "stop" : 1646794370935,
+            "duration" : 652
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块3OK家长调用-分类列表_冒烟",
+          "uid" : "873db82c8d3791ea",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794370940,
+            "stop" : 1646794371152,
+            "duration" : 212
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "OK家长调用-分类列表_冒烟",
+          "uid" : "90d4a7a1de8b2459",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794371157,
+            "stop" : 1646794371616,
+            "duration" : 459
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "OK学生调用-分类列表_冒烟",
+          "uid" : "9a567d4d36ca92e",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794371619,
+            "stop" : 1646794371942,
+            "duration" : 323
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块2OK家长调用-分类列表_冒烟",
+          "uid" : "25da859c025471b5",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794371944,
+            "stop" : 1646794372115,
+            "duration" : 171
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块2OK学生调用-分类列表_冒烟",
+          "uid" : "f4511891e29a9ab3",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794372121,
+            "stop" : 1646794372216,
+            "duration" : 95
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块3OK家长调用-分类列表_冒烟",
+          "uid" : "532a08d43969b67",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794372218,
+            "stop" : 1646794372250,
+            "duration" : 32
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        }, {
+          "name" : "模块3OK学生调用-分类列表_冒烟",
+          "uid" : "6b85835b7e1d79e",
+          "parentUid" : "843e2a8ce2306d95db769d71a7fc59c5",
+          "status" : "passed",
+          "time" : {
+            "start" : 1646794372252,
+            "stop" : 1646794372285,
+            "duration" : 33
+          },
+          "flaky" : false,
+          "newFailed" : false,
+          "parameters" : [ ]
+        } ],
+        "uid" : "843e2a8ce2306d95db769d71a7fc59c5"
+      } ],
+      "uid" : "ddb3ca3787a8f1df4ebbac3cf0a39a27"
+    } ],
+    "uid" : "b51346658ccdb9db01a6b5f6c12deab1"
+  } ],
+  "name" : "suites"
+}

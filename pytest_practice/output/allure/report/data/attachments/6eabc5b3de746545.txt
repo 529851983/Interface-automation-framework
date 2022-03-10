@@ -1,0 +1,10 @@
+{
+    "device_type": 2,
+    "is_only_highlight": 1,
+    "type_model": "4.0.0"
+}
+
+当前运行环境为：dev
+接口id：4
+预期结果<class 'str'>："code":260002
+实际结果<class 'str'>：{"code":260002,"data":{},"msg":"TypeModel为必填字段"}

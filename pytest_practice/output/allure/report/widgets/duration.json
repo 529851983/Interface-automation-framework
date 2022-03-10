@@ -1,0 +1,111 @@
+[ {
+  "uid" : "25da859c025471b5",
+  "name" : "模块2OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794371944,
+    "stop" : 1646794372115,
+    "duration" : 171
+  },
+  "status" : "passed",
+  "severity" : "trivial"
+}, {
+  "uid" : "532a08d43969b67",
+  "name" : "模块3OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794372218,
+    "stop" : 1646794372250,
+    "duration" : 32
+  },
+  "status" : "passed",
+  "severity" : "trivial"
+}, {
+  "uid" : "6b85835b7e1d79e",
+  "name" : "模块3OK学生调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794372252,
+    "stop" : 1646794372285,
+    "duration" : 33
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d0821d3b780a344",
+  "name" : "OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794368044,
+    "stop" : 1646794370166,
+    "duration" : 2122
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "d0d39d5897f1cec6",
+  "name" : "模块2OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794370171,
+    "stop" : 1646794370279,
+    "duration" : 108
+  },
+  "status" : "passed",
+  "severity" : "minor"
+}, {
+  "uid" : "ce4528eaefdbc8ab",
+  "name" : "模块3OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794370283,
+    "stop" : 1646794370935,
+    "duration" : 652
+  },
+  "status" : "passed",
+  "severity" : "critical"
+}, {
+  "uid" : "873db82c8d3791ea",
+  "name" : "模块3OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794370940,
+    "stop" : 1646794371152,
+    "duration" : 212
+  },
+  "status" : "passed",
+  "severity" : "trivial"
+}, {
+  "uid" : "90d4a7a1de8b2459",
+  "name" : "OK家长调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794371157,
+    "stop" : 1646794371616,
+    "duration" : 459
+  },
+  "status" : "passed",
+  "severity" : "trivial"
+}, {
+  "uid" : "9a567d4d36ca92e",
+  "name" : "OK学生调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794371619,
+    "stop" : 1646794371942,
+    "duration" : 323
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "f4511891e29a9ab3",
+  "name" : "模块2OK学生调用-分类列表_冒烟",
+  "time" : {
+    "start" : 1646794372121,
+    "stop" : 1646794372216,
+    "duration" : 95
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "a171585a3741bcbf",
+  "name" : "教师机登录_正常",
+  "time" : {
+    "start" : 1646794364718,
+    "stop" : 1646794368040,
+    "duration" : 3322
+  },
+  "status" : "passed",
+  "severity" : "blocker"
+} ]

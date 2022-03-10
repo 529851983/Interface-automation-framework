@@ -1,0 +1,81 @@
+登录:
+- id: 1
+  svr_name: teacherpad
+  case_name: 教师机登录_正常
+  path: /api/t_pad/user/login
+  method: post
+  headers: "{\n  'requestid': '132345',\n  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"uname\": \"61951577336\",\n    \"pwd\": \"NTtlYPjWU88+7vZ5jl9106xAWOdBoEyyKKn8MCvwWmdk2rmbAJuUUByaKO3lizCJn9hMfLdb0cuvVWdRuwImA0MJ7HvXLD7UB9rJpH5m/LjXqjb6E5JoKSY2mCDUNcYk/VI5YYhRVxFUldDZbg/Ug/fagx0eQkCZEAunF+7HmsE=\"\
+    \n}"
+  extract: '{"token":"token"}'
+  priority: blocker
+  describe: 登录-获取token
+  validate: 登录成功
+- id: 2
+  svr_name: ailearn-composer-interface
+  case_name: 查询推荐OK智课列表
+  path: /api/composer/minicourse/recommend
+  method: post
+  headers: "{\n  'requestid': ${random()},\n  'token': ${token},\n  'uid': '61951577336',\n\
+    \  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"teacher_id\": ${random()},\n    \"org_id\": 80,\n    \"kid\"\
+    : 82,\n    \"org_type\": 11,\n    \"student_mode\": \"1,2\",\n    \"page_num\"\
+    : 1,\n    \"teacher_mode\": \"1,2,3,4,5,6,7\",\n    \"ktype\": 0,\n    \"page_size\"\
+    : 10\n}"
+  extract: null
+  priority: critical
+  describe: 描述1
+  validate: '"ecode": 0'
+模块1:
+- id: 1文件2
+  svr_name: bizops
+  case_name: OK家长调用-分类列表_冒烟
+  path: /okay/help/type
+  method: post
+  headers: "{\n  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"device_type\": 2,\n    \"is_only_highlight\": 1,\n    \"type_model\"\
+    : \"4.0.0\",\n    \"role_model\": 2\n}"
+  extract: '{"code":"code",
+
+    "msg":"msg"}'
+  priority: normal
+  describe: 没事都过去了
+  validate: '"code":260000'
+模块2:
+- id: 1
+  svr_name: bizops
+  case_name: 模块2OK家长调用-分类列表_冒烟
+  path: /okay/help/type
+  method: post
+  headers: "{\n  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"device_type\": 2,\n    \"is_only_highlight\": 1,\n    \"type_model\"\
+    : \"4.0.0\",\n    \"role_model\": 2\n}"
+  extract: '{}'
+  priority: minor
+  describe: 加油未来
+  validate: '"code":260000'
+模块3:
+- id: 1
+  svr_name: bizops
+  case_name: 模块3OK家长调用-分类列表_冒烟
+  path: /okay/help/type
+  method: post
+  headers: "{\n  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"device_type\": 2,\n    \"is_only_highlight\": 1,\n    \"type_model\"\
+    : \"4.0.0\",\n    \"role_model\": 2\n}"
+  extract: '{}'
+  priority: critical
+  describe: 气死
+  validate: '"code":260000'
+- id: 2
+  svr_name: bizops
+  case_name: 模块3OK家长调用-分类列表_冒烟
+  path: /okay/help/type
+  method: post
+  headers: "{\n  'Content-Type': 'application/json'\n}"
+  payloads: "{\n    \"device_type\": 2,\n    \"is_only_highlight\": 1,\n    \"type_model\"\
+    : \"4.0.0\",\n    \"role_model\": 2\n}"
+  extract: '{}'
+  priority: trivial
+  describe: null
+  validate: '"code":260000'

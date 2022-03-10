@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function find_all(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sort_column(elem) {
+    toggle_sort_states(elem);
+    var colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    var key;
+    if (elem.classList.contains('numeric')) {
+        key = key_num;
+    } else if (elem.classList.contains('result')) {
+        key = key_result;
+    } else {
+        key = key_alpha;
+    }
+    sort_table(elem, key(colIndex));
+}
+
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
+}
+
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
+}
+
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
+}
+
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
+}
+
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
+}
+
+function add_collapse() {
+    // Add links for show/hide all
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    find_all('.col-result').forEach(function(elem) {
+        var collapsed = get_query_parameter('collapsed') || 'Passed';
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (extras.classList.contains("collapsed")) {
+            expandcollapse.classList.add("expander")
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
+        } else {
+            expandcollapse.classList.add("collapser");
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
+            } else {
+                hide_extras(event.currentTarget);
+            }
+        });
+    })
+}
+
+function get_query_parameter(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () {
+    reset_sort_headers();
+
+    add_collapse();
+
+    show_filters();
+
+    sort_column(find('.initial-sort'));
+
+    find_all('.sortable').forEach(function(elem) {
+        elem.addEventListener("click",
+                              function(event) {
+                                  sort_column(elem);
+                              }, false)
+    });
+
+};
+
+function sort_table(clicked, key_func) {
+    var rows = find_all('.results-table-row');
+    var reversed = !clicked.classList.contains('asc');
+    var sorted_rows = sort(rows, key_func, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    var thead = document.getElementById("results-table-head");
+    document.getElementById('results-table').remove();
+    var parent = document.createElement("table");
+    parent.id = "results-table";
+    parent.appendChild(thead);
+    sorted_rows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
+}
+
+function sort(items, key_func, reversed) {
+    var sort_array = items.map(function(item, i) {
+        return [key_func(item), i];
+    });
+
+    sort_array.sort(function(a, b) {
+        var key_a = a[0];
+        var key_b = b[0];
+
+        if (key_a == key_b) return 0;
+
+        if (reversed) {
+            return (key_a < key_b ? 1 : -1);
+        } else {
+            return (key_a > key_b ? 1 : -1);
+        }
+    });
+
+    return sort_array.map(function(item) {
+        var index = item[1];
+        return items[index];
+    });
+}
+
+function key_alpha(col_index) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[col_index].firstChild.data.toLowerCase();
+    };
+}
+
+function key_num(col_index) {
+    return function(elem) {
+        return parseFloat(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function key_result(col_index) {
+    return function(elem) {
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function reset_sort_headers() {
+    find_all('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    find_all('.sortable').forEach(function(elem) {
+        var icon = document.createElement("div");
+        icon.className = "sort-icon";
+        icon.textContent = "vvv";
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove("desc", "active");
+        elem.classList.add("asc", "inactive");
+    });
+}
+
+function toggle_sort_states(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        reset_sort_headers();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function is_all_rows_hidden(value) {
+  return value.hidden == false;
+}
+
+function filter_table(elem) {
+    var outcome_att = "data-test-result";
+    var outcome = elem.getAttribute(outcome_att);
+    class_outcome = outcome + " results-table-row";
+    var outcome_rows = document.getElementsByClassName(class_outcome);
+
+    for(var i = 0; i < outcome_rows.length; i++){
+        outcome_rows[i].hidden = !elem.checked;
+    }
+
+    var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
+    var all_rows_hidden = rows.length == 0 ? true : false;
+    var not_found_message = document.getElementById("not-found-message");
+    not_found_message.hidden = !all_rows_hidden;
+}
+</script>
+    <h1>report.html</h1>
+    <p>Report generated on 09-Mar-2022 at 10:52:52 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v2.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "0.13.1", "py": "1.9.0", "pytest": "6.2.5"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>macOS-10.16-x86_64-i386-64bit</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"allure-pytest": "2.8.40", "assume": "2.4.3", "forked": "1.3.0", "html": "2.1.1", "metadata": "1.11.0", "ordering": "0.6", "rerunfailures": "9.1.1", "xdist": "2.2.1"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.8.5</td></tr></table>
+    <h2>Summary</h2>
+    <p>11 tests ran in 7.93 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">11 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>, <input checked="true" class="filter" data-test-result="rerun" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable numeric" col="duration">Duration</th>
+          <th>Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args0]</td>
+          <td class="col-duration">3.32</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>运行前操作:
+1.删除response下的optons变量[&#x27;token&#x27;, &#x27;code&#x27;, &#x27;msg&#x27;]
+2.删除上次的allure报告的temp文件
+<br/> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;uname&quot;: &quot;61951577336&quot;,
+    &quot;pwd&quot;: &quot;NTtlYPjWU88+7vZ5jl9106xAWOdBoEyyKKn8MCvwWmdk2rmbAJuUUByaKO3lizCJn9hMfLdb0cuvVWdRuwImA0MJ7HvXLD7UB9rJpH5m/LjXqjb6E5JoKSY2mCDUNcYk/VI5YYhRVxFUldDZbg/Ug/fagx0eQkCZEAunF+7HmsE=&quot;
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1
+预期结果&lt;class &#x27;str&#x27;&gt;：登录成功
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;meta&quot;:{&quot;ecode&quot;:0,&quot;emsg&quot;:&quot;登录成功&quot;},&quot;data&quot;:{&quot;isInBindPhoneInterval&quot;:0,&quot;token&quot;:&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHBpcmVzSW4iOiI2MDQ4MDAiLCJzeXN0ZW1JZCI6IjYxOTUxNTc3MzM2IiwibG9naW5UeXBlIjoiMyIsInNoYXJlVG9rZW4iOiJ0cnVlIiwidXNlclR5cGUiOiIxIiwib3JnSWQiOiIzNTgxIiwidGltZXN0YW1wIjoiMTY0Njc5NDM2ODE4OSJ9.GfEdaG1lBbZcmrTD978hUpggTfcThbj-ttzD2zUB8qc&quot;,&quot;avatarurl&quot;:&quot;&quot;,&quot;gender&quot;:1,&quot;name&quot;:&quot;压测老师a&quot;,&quot;uid&quot;:61951577336,&quot;phone&quot;:&quot;&quot;,&quot;orgid&quot;:&quot;3581&quot;,&quot;orgtype&quot;:2,&quot;schoolname&quot;:&quot;链路压测专用学校校&quot;,&quot;directory_id&quot;:0,&quot;desc&quot;:&quot;压测1&quot;,&quot;isWeakPassword&quot;:false}}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args1]</td>
+          <td class="col-duration">2.12</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1文件2
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args2]</td>
+          <td class="col-duration">0.11</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args3]</td>
+          <td class="col-duration">0.65</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args4]</td>
+          <td class="col-duration">0.21</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,failed
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：2
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args5]</td>
+          <td class="col-duration">0.46</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1文件1
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args6]</td>
+          <td class="col-duration">0.32</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;
+}
+
+当前运行环境为：dev
+接口id：4
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260002
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260002,&quot;data&quot;:{},&quot;msg&quot;:&quot;TypeModel为必填字段&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args7]</td>
+          <td class="col-duration">0.17</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+&lt;class &#x27;str&#x27;&gt;
+接口id：1
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args8]</td>
+          <td class="col-duration">0.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;
+}
+
+当前运行环境为：dev
+接口id：4
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260002
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260002,&quot;data&quot;:{},&quot;msg&quot;:&quot;TypeModel为必填字段&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args9]</td>
+          <td class="col-duration">0.03</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;,
+    &quot;role_model&quot;: 2
+}
+
+当前运行环境为：dev
+接口id：1
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260000
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260000,&quot;data&quot;:[{&quot;id&quot;:99,&quot;name&quot;:&quot;帐号登录与创建&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png&quot;},{&quot;id&quot;:98,&quot;name&quot;:&quot;关于本机&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png&quot;},{&quot;id&quot;:8,&quot;name&quot;:&quot;软硬件通用文章&quot;,&quot;checked_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png&quot;,&quot;default_ico&quot;:&quot;https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png&quot;}],&quot;msg&quot;:&quot;成功&quot;}
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_testcases.py::TestCase::test_all[dev-args10]</td>
+          <td class="col-duration">0.03</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{
+    &quot;device_type&quot;: 2,
+    &quot;is_only_highlight&quot;: 1,
+    &quot;type_model&quot;: &quot;4.0.0&quot;
+}
+
+当前运行环境为：dev
+接口id：4
+预期结果&lt;class &#x27;str&#x27;&gt;：&quot;code&quot;:260002
+实际结果&lt;class &#x27;str&#x27;&gt;：{&quot;code&quot;:260002,&quot;data&quot;:{},&quot;msg&quot;:&quot;TypeModel为必填字段&quot;}
+<br/></div></td></tr></tbody></table></body></html>

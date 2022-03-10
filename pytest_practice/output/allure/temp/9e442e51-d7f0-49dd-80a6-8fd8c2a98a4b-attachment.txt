@@ -1,0 +1,13 @@
+运行前操作:
+1.删除response下的optons变量['token', 'code', 'msg']
+2.删除上次的allure报告的temp文件
+{
+    "uname": "61951577336",
+    "pwd": "NTtlYPjWU88+7vZ5jl9106xAWOdBoEyyKKn8MCvwWmdk2rmbAJuUUByaKO3lizCJn9hMfLdb0cuvVWdRuwImA0MJ7HvXLD7UB9rJpH5m/LjXqjb6E5JoKSY2mCDUNcYk/VI5YYhRVxFUldDZbg/Ug/fagx0eQkCZEAunF+7HmsE="
+}
+
+当前运行环境为：dev
+<class 'str'>
+接口id：1
+预期结果<class 'str'>：登录成功
+实际结果<class 'str'>：{"meta":{"ecode":0,"emsg":"登录成功"},"data":{"isInBindPhoneInterval":0,"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHBpcmVzSW4iOiI2MDQ4MDAiLCJzeXN0ZW1JZCI6IjYxOTUxNTc3MzM2IiwibG9naW5UeXBlIjoiMyIsInNoYXJlVG9rZW4iOiJ0cnVlIiwidXNlclR5cGUiOiIxIiwib3JnSWQiOiIzNTgxIiwidGltZXN0YW1wIjoiMTY0Njc5NDM2ODE4OSJ9.GfEdaG1lBbZcmrTD978hUpggTfcThbj-ttzD2zUB8qc","avatarurl":"","gender":1,"name":"压测老师a","uid":61951577336,"phone":"","orgid":"3581","orgtype":2,"schoolname":"链路压测专用学校校","directory_id":0,"desc":"压测1","isWeakPassword":false}}

@@ -1,0 +1,129 @@
+{
+  "uid" : "873db82c8d3791ea",
+  "name" : "模块3OK家长调用-分类列表_冒烟",
+  "fullName" : "testcases.test_testcases.TestCase#test_all",
+  "historyId" : "5fe453c2c7b71b82673efe8cdb27ac87",
+  "time" : {
+    "start" : 1646794370940,
+    "stop" : 1646794371152,
+    "duration" : 212
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "setup_teardown",
+    "time" : {
+      "start" : 1646794364708,
+      "stop" : 1646794364718,
+      "duration" : 10
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "env",
+    "time" : {
+      "start" : 1646794370939,
+      "stop" : 1646794370939,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "4781e7bcab3cf4b9",
+      "name" : "stdout",
+      "source" : "4781e7bcab3cf4b9.txt",
+      "type" : "text/plain",
+      "size" : 728
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "setup_teardown::0",
+    "time" : {
+      "start" : 1646794372286,
+      "stop" : 1646794372286,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "feature",
+    "value" : "xxx项目"
+  }, {
+    "name" : "story",
+    "value" : "功能名称"
+  }, {
+    "name" : "severity",
+    "value" : "trivial"
+  }, {
+    "name" : "tag",
+    "value" : "6093"
+  }, {
+    "name" : "parentSuite",
+    "value" : "testcases"
+  }, {
+    "name" : "suite",
+    "value" : "test_testcases"
+  }, {
+    "name" : "subSuite",
+    "value" : "TestCase"
+  }, {
+    "name" : "host",
+    "value" : "dongshuaideMacBook-Air.local"
+  }, {
+    "name" : "thread",
+    "value" : "16640-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "testcases.test_testcases"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "trivial",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "6093" ]
+  },
+  "source" : "873db82c8d3791ea.json",
+  "parameterValues" : [ ]
+}

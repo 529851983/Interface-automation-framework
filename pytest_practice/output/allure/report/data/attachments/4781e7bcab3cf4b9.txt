@@ -1,0 +1,12 @@
+{
+    "device_type": 2,
+    "is_only_highlight": 1,
+    "type_model": "4.0.0",
+    "role_model": 2
+}
+
+当前运行环境为：dev
+<class 'str'>
+接口id：2
+预期结果<class 'str'>："code":260000
+实际结果<class 'str'>：{"code":260000,"data":[{"id":99,"name":"帐号登录与创建","checked_ico":"https://rc.okjiaoyu.cn/rc_1A0C7X7BhJK.png","default_ico":"https://rc.okjiaoyu.cn/rc_1A0C6R9ePxS.png"},{"id":98,"name":"关于本机","checked_ico":"https://rc.okjiaoyu.cn/rc_1A0Caf5AIak.png","default_ico":"https://rc.okjiaoyu.cn/rc_1A0C9CIUa9G.png"},{"id":8,"name":"软硬件通用文章","checked_ico":"https://rc.okjiaoyu.cn/rc_1zzRYLt22re.png","default_ico":"https://rc.okjiaoyu.cn/rc_1zzRYbaVLhK.png"}],"msg":"成功"}

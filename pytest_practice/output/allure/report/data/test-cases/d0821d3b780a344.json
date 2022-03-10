@@ -1,0 +1,132 @@
+{
+  "uid" : "d0821d3b780a344",
+  "name" : "OK家长调用-分类列表_冒烟",
+  "fullName" : "testcases.test_testcases.TestCase#test_all",
+  "historyId" : "c20f7aa7d40d5df9ce3a04acc07ba288",
+  "time" : {
+    "start" : 1646794368044,
+    "stop" : 1646794370166,
+    "duration" : 2122
+  },
+  "description" : "没事都过去了",
+  "descriptionHtml" : "<p>没事都过去了</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "setup_teardown",
+    "time" : {
+      "start" : 1646794364708,
+      "stop" : 1646794364718,
+      "duration" : 10
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "env",
+    "time" : {
+      "start" : 1646794368044,
+      "stop" : 1646794368044,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "没事都过去了",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "8d0ab23e99108e9c",
+      "name" : "stdout",
+      "source" : "8d0ab23e99108e9c.txt",
+      "type" : "text/plain",
+      "size" : 735
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "setup_teardown::0",
+    "time" : {
+      "start" : 1646794372286,
+      "stop" : 1646794372286,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "feature",
+    "value" : "xxx项目"
+  }, {
+    "name" : "story",
+    "value" : "功能名称"
+  }, {
+    "name" : "severity",
+    "value" : "normal"
+  }, {
+    "name" : "tag",
+    "value" : "3497"
+  }, {
+    "name" : "parentSuite",
+    "value" : "testcases"
+  }, {
+    "name" : "suite",
+    "value" : "test_testcases"
+  }, {
+    "name" : "subSuite",
+    "value" : "TestCase"
+  }, {
+    "name" : "host",
+    "value" : "dongshuaideMacBook-Air.local"
+  }, {
+    "name" : "thread",
+    "value" : "16640-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "testcases.test_testcases"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "3497" ]
+  },
+  "source" : "d0821d3b780a344.json",
+  "parameterValues" : [ ]
+}
